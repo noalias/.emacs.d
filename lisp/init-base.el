@@ -81,6 +81,7 @@
   (with-eval-after-load 'recentf
     (add-to-list 'recentf-exclude no-littering-var-directory)
     (add-to-list 'recentf-exclude no-littering-etc-directory))
+  (setq server-auth-dir (expand-file-name "server" no-littering-var-directory))
   (progn ; `custom-file'
     (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
     (when (file-exists-p custom-file)
