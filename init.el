@@ -37,6 +37,7 @@
   (require 'init-buffer)
   (require 'init-window)
   (require 'init-dired)
+  (require 'init-dashboard)
   ;; must load in last
   (require 'init-keys)
   )

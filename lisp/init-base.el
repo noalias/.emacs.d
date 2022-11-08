@@ -38,6 +38,7 @@
   (with-eval-after-load 'straight
     (straight-use-package 'dash)
     (require 'dash)
+    (straight-use-package 'all-the-icons)
     (straight-use-package 'consult)
     (require 'consult)
     (straight-use-package 'transient)

@@ -5,9 +5,9 @@
   (straight-use-package 'markdown-mode)
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
   ;; `yaml-mode'
+  (straight-use-package 'yaml-mode)
   (with-eval-after-load 'yaml-mode
-    (straight-use-package 'yaml-mode)
-    (define-key 'yaml-mode-map (kbd "C-m") #'newline-and-indent))
+    (define-key yaml-mode-map (kbd "C-m") #'newline-and-indent))
   )
 
 (with-eval-after-load 'org

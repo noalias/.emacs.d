@@ -6,6 +6,12 @@
       delete-auto-save-files t)
 
 (add-hook 'after-init-hook #'recentf-mode)
+(with-eval-after-load 'recentf
+  (add-to-list 'recentf-exclude (rx bos ?.
+                                    (or (seq "do" (or ?c ?t) (? ?x))
+                                        "ppt")
+                                    eos))
+  )
 
 (straight-use-package 'consult-dir)
 (autoload 'consult-dir-dired "consult-dir")
