@@ -8,7 +8,7 @@
 
 (global-set-key (kbd "C-x B") #'ibuffer)
 (global-set-key (kbd "M-SPC") #'keys:action)
-(global-set-key (kbd "M-c") #'keys:edit)
+(global-set-key (kbd "M-c") #'edit:keys)
 
 (global-unset-key (kbd "C-x C-o"))
 (global-unset-key (kbd "C-x f"))
@@ -23,12 +23,12 @@
   "常用命令的导航键"
   ["Quick"
    :class transient-row
-   ("s" "Save current buffer" save-buffer)
+   ("SPC" "Bookmark" consult-bookmark)
+   ("v" "Visit package" straight-visit-package)
    ("K" "Save buffers and kill emacs" save-buffers-kill-emacs)
    ("c" "Capture ideas" org-capture)
    ("a" "Agenda" org-agenda)
    ("g" "Magit" magit)
-   ("SPC" "Bookmark" consult-bookmark)
    ]
   ["Dispatch"
    :class transient-row

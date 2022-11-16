@@ -19,8 +19,8 @@
     (add-hook 'dired-mode-hook #'all-the-icons-dired-mode))
   )
 
+(straight-use-package 'diredfl)
 (with-eval-after-load 'dired
-  (straight-use-package 'diredfl)
   (diredfl-global-mode)
 
   (progn ; `functions'
@@ -30,8 +30,27 @@
       (dired-map-over-marks
        (consult-file-externally (dired-get-file-for-visit))
        arg))
+
+    (defun dired:mupdf-merge-files (&optional arg)
+      "使用 mupdf tool 将文件合并为一个 pdf 文件"
+      (interactive "P")
+      (unless (executable-find "mutool")
+        (user-error "Can not find *mutool*"))
+      (let ((files (dired-get-marked-files 'no-dir arg
+                                          (lambda (file)
+                                            (string-match-p
+                                             (rx bos (or "jpg" "pdf" "png") eos)
+                                             (file-name-extension file))))))
+        (if (length< files 2)
+            (user-error "Less files to merge"))
+        (process-lines "mutool"
+                       "merge"
+                       (string-join files " ")
+                       "-o"
+                       "output.pdf"))
+      )
     )
-      
+
   (setq dired-listing-switches "-algGh --time-style=iso"
         dired-recursive-deletes 'always
         dired-recursive-copies 'always
@@ -94,7 +113,7 @@
                     "ppt")
                 eos)
            "wps &")))
-  
+
   (add-to-list 'dired-compress-file-suffixes
                (list
                 (rx ?. (or "zip" "7z") eos)

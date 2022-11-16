@@ -23,7 +23,7 @@
                                       before-user-init-time))))
 
 ;;; Long tail
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-base)
 (with-eval-after-load 'init-base
   (require 'init-easy)
@@ -38,6 +38,7 @@
   (require 'init-window)
   (require 'init-dired)
   (require 'init-dashboard)
+  (require 'init-edit)
   ;; must load in last
   (require 'init-keys)
   )

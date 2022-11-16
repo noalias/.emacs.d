@@ -29,7 +29,6 @@
     )
   )
 
-
 (progn ; `orderless'
   (straight-use-package 'orderless)
   (setq completion-styles '(orderless basic)
@@ -64,8 +63,9 @@
   (global-set-key (kbd "C-h B") #'embark-bindings)
   (setq prefix-help-command #'embark-refix-help-command)
   (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
+
+  (straight-use-package 'embark-consult)
   (with-eval-after-load 'embark
-    (straight-use-package 'embark-consult)
     (require 'embark-consult)
     (add-to-list 'display-buffer-alist
                  '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"

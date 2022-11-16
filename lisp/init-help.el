@@ -23,9 +23,11 @@
    ("f" "Help for functions" helpful-callable)
    ("x" "Help for command" helpful-command)
    ("k" "Help for key" helpful-key)
+   ("p" "Help for packages" describe-package)
    ("v" "Help for values" helpful-variable)
    ("o" "Help for symbol" helpful-symbol)
    ("i" "Help for info" info-other-window)
+   ("s" "Help for shortdoc" shortdoc)
    ("a" "Help for aprops" consult-apropos)
    ])
 

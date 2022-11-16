@@ -1,9 +1,14 @@
 ;;; -*- lexical-binding: t -*-
 (require 'init-base)
 
-(setq make-backup-files nil     ; Forbide to make backup files
-      auto-save-default nil
-      delete-auto-save-files t)
+(straight-use-package '(auto-save
+                        :host github
+                        :repo "manateelazycat/auto-save"))
+(require 'auto-save)
+(auto-save-enable)
+(setq auto-save-silent t)   ; quietly save
+(setq auto-save-delete-trailing-whitespace t)
+(setq delete-auto-save-files t)
 
 (add-hook 'after-init-hook #'recentf-mode)
 (with-eval-after-load 'recentf
