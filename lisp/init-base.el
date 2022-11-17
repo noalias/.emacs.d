@@ -4,7 +4,7 @@
   (require 'cl-generic)
   (require 'rx)
   (setq reb-re-syntax 'rx)
-  
+
   (progn ; `straight'
     ;; config `straight'
     (setq straight-check-for-modifications '(check-on-save)
@@ -34,7 +34,7 @@
         )
       (load bootstrap-file nil 'nomessage))
     )
-  
+
   (with-eval-after-load 'straight
     (straight-use-package 'dash)
     (require 'dash)
@@ -53,16 +53,6 @@
   )
 
 (progn ; `function'
-  )
-
-(progn ; `edit'
-  (add-hook 'after-init-hook #'electric-pair-mode)
-  (add-hook 'after-init-hook #'show-paren-mode)
-  (setq show-paren-sytle 'parentthesis)
-  
-  (setq-default fill-column 80
-                tab-width 4
-                indent-tabs-mode nil)
   )
 
 (progn ; `Encoding'
@@ -91,7 +81,7 @@
 
 (progn ; `misc'
   (fset 'yes-or-no-p 'y-or-n-p)
-  
+
   (setq visible-bell t
         ring-bell-function 'ignore
         )
