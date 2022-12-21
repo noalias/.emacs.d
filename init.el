@@ -30,7 +30,7 @@
   (use-package init-easy)
   (use-package init-input-method)
   (use-package init-face)
-  ;(use-package init-text)
+  (use-package init-text)
   (use-package init-prog)
   (use-package init-help)
   (use-package init-project)

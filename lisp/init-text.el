@@ -1,40 +1,39 @@
 ;;; -*- lexical-binding: t -*-
-(progn ;    `text-mode'
+(use-package text-mode
+  :config
   (setq-default major-mode 'text-mode)
-  ;; `markdown-mode'
-  (straight-use-package 'markdown-mode)
-  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-  ;; `yaml-mode'
-  (straight-use-package 'yaml-mode)
-  (with-eval-after-load 'yaml-mode
-    (define-key yaml-mode-map (kbd "C-m") #'newline-and-indent))
-  )
-
-(with-eval-after-load 'org
-  (require 'org-tempo)
   
+  (use-package markdown-mode
+    :straight t
+    :mode ("README\\.md\\'" . gfm-mode))
+
+  (use-package yaml-mode
+    :straight t
+    :bind ("C-m" . newline-and-indent)))
+
+(use-package org
+  :init
   (defvar org:cloud-file)
   (defvar org:template-file)
-
-  (global-set-key (kbd "C-c c") #'org-capture)
-  (global-set-key (kbd "C-c a") #'org-agenda)
-  
+  :bind
+  (("C-c c" . org-capture)
+   ("C-c a" . org-agenda))
+  :config
+  (require 'org-tempo)
   (setq org-M-RET-may-split-line '((default . nil)))
   (setq org-refile-use-outline-path 'file
         org-outline-path-complete-in-steps nil)
-  ;; refile 设置
   (let ((default-directory org-directory))
     (setq org:cloud-file (expand-file-name "Cloud/日常.org"))
     (setq org:template-file (expand-file-name "Templates/报销.org")))
-    
   (setq org-refile-targets `((nil :level . 1)
                              (,org:cloud-file :level . 1)
                              ("emacs.org" :level . 1)
                              ("work.org" :level . 1)
                              ("toys.org" :level . 1)
                              ("projects.org" :level . 1))
-        org-reverse-note-order t ;; `entry' 放置在子节点首位
-        )
+        ;; `entry' 放置在子节点首位
+        org-reverse-note-order t)
   ;; agenda 设置
   (setq org-agenda-files (list org-directory
                                org:cloud-file))
@@ -87,8 +86,7 @@
                                  :kill-buffer t)
                                 )
         )
-  )
-(add-hook 'org-mode-hook #'valign-mode)
+  (add-hook 'org-mode-hook #'valign-mode))
 
 (provide 'init-text)
 ;;; init-text.el ends here
