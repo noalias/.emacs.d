@@ -10,7 +10,7 @@
                           'append))
 
 (use-package emacs
-  :bind ("s-p" . project:keys)
+  :bind ("M-c p" . project:keys)
   :config
   (transient-define-prefix project:keys ()
     "Project 操作"

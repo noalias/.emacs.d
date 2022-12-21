@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 (use-package emacs
   :demand t
-  :bind ("s-b" . buffer:keys)
+  :bind ("M-c b" . buffer:keys)
   :init
   (defvar buffer:skip-regexp
     (rx bos

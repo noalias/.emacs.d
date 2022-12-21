@@ -10,7 +10,7 @@
   (setq auto-save-delete-trailing-whitespace t)
   (setq delete-auto-save-files t)
   :hook (after-init-hook . recentf-mode)
-  :bind ("s-f" . file:keys)
+  :bind ("M-c f" . file:keys)
   :config
   (add-to-list 'recentf-exclude no-littering-var-directory)
   (add-to-list 'recentf-exclude no-littering-etc-directory)

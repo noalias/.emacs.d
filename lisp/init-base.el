@@ -12,14 +12,15 @@
   (defconst base:display-graphic-p (and (display-graphic-p)
                                         (featurep 'all-the-icons)))
   :bind
-  (("s-m" . consult-bookmark)
-   ("s-g" . magit)
-   ("s-c" . org-capture)
-   ("s-a" . org-agenda)
-   ("s-v" . straight-visit-package)
-   ("s-q" . save-buffers-kill-emacs)
-   ("s-k" . kill-current-buffer)
-   ("M-c" . edit:keys))
+  (("M-c m" . consult-bookmark)
+   ("M-c g" . magit)
+   ("M-c c" . org-capture)
+   ("M-c a" . org-agenda)
+   ("M-c v" . straight-visit-package)
+   ("M-c q" . save-buffers-kill-emacs)
+   ("M-c k" . kill-current-buffer)
+   ("M-c s" . save-some-buffers)
+   ("M-SPC" . edit:keys))
   :config
   (progn ; `custom-file'
     (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
@@ -28,10 +29,10 @@
   
   (setq server-auth-dir (expand-file-name "server" no-littering-var-directory))
   
-  (when base:win-p
-    (setq w32-pass-lwindow-to-system nil) 
-    (setq w32-lwindow-modifier 'super)
-    (w32-register-hot-key [s-]))
+  ;; (when base:win-p
+  ;;   (setq w32-pass-lwindow-to-system nil) 
+  ;;   (setq w32-lwindow-modifier 'super)
+  ;;   (w32-register-hot-key [s-]))
   
   (progn ; `Encoding'
     ;; (set-language-environment               "UTF-8")     ;; System default coding
@@ -60,6 +61,7 @@
       (set-selection-coding-system 'utf-8)))
 
   (progn ; `unset-keys'
+    (global-unset-key (kbd "M-c"))
     (global-unset-key (kbd "C-x C-o"))
     (global-unset-key (kbd "C-x f"))
     (global-unset-key (kbd "C-x C-d"))

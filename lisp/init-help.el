@@ -5,7 +5,7 @@
   (use-package init-base)
   (use-package init-easy)
   :bind
-  ("s-h" . help:keys)
+  ("M-c h" . help:keys)
   :config
   (use-package apropos
     :defer t

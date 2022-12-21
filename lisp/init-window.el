@@ -60,7 +60,7 @@
   (use-package init-base)
   :demand t
   :bind
-  ("s-w" . window:keys)
+  ("M-c w" . window:keys)
   :after (winner)
   :config
   (transient-define-prefix window:keys ()
