@@ -26,6 +26,44 @@
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
 
+(progn ; `straight'
+    ;; config `straight'
+    (setq straight-check-for-modifications '(check-on-save)
+          straight-vc-git-default-clone-depth 1
+          straight-base-dir (or (getenv "XDG_DATA_HOME")
+                                "~/.local/share/")
+          ;; 在 `use-package' 使用 `straight' 安装包
+          ;; straight-use-package-by-default t
+          )
+
+    ;; load `straight'
+    (defvar bootstrap-version)
+    (let* ((bootstrap-dir
+	        (expand-file-name "straight/repos" straight-base-dir))
+           (bootstrap-file
+	        (expand-file-name "straight.el/bootstrap.el" bootstrap-dir))
+           (bootstrap-version 6)
+           )
+      (unless (file-exists-p bootstrap-file)
+        (or (file-exists-p bootstrap-dir)
+	        (mkdir bootstrap-dir t))
+        (let ((default-directory bootstrap-dir))
+          (process-lines "git"
+		                 "clone"
+		                 "git@github.com:radian-software/straight.el.git"
+		                 "--depth"
+		                 "1"))
+        )
+      (load bootstrap-file nil 'nomessage))
+    )
+
+(with-eval-after-load 'straight
+  (straight-use-package 'use-package)
+  ;; 禁止自动添加 `-hook'
+  (setq use-package-hook-name-suffix nil)
+  (require 'use-package)
+  )
+
 ;;; early-init.el ends here
 ;; Local Variables:
 ;; no-byte-compile: t

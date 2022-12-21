@@ -19,25 +19,18 @@
 (global-unset-key (kbd "C-x C-p"))
 (global-unset-key (kbd "C-h C-a"))
 
-(transient-define-prefix keys:action ()
-  "常用命令的导航键"
-  ["Quick"
-   :class transient-row
-   ("SPC" "Bookmark" consult-bookmark)
-   ("v" "Visit package" straight-visit-package)
-   ("K" "Save buffers and kill emacs" save-buffers-kill-emacs)
-   ("c" "Capture ideas" org-capture)
-   ("a" "Agenda" org-agenda)
-   ("g" "Magit" magit)
-   ]
-  ["Dispatch"
-   :class transient-row
-   ("p" "Projects" project:keys)
-   ("h" "Help" help:keys)
-   ("b" "Buffer" buffer:keys)
-   ("f" "File" file:keys)
-   ("w" "Window" window:keys)
-   ])
+(when base:win-p
+  (setq w32-pass-lwindow-to-system nil) 
+  (setq w32-lwindow-modifier 'super)
+  (w32-register-hot-key [s-]))
+
+(global-set-key (kbd "s-m") #'consult-bookmark)
+(global-set-key (kbd "s-g") #'magit)
+(global-set-key (kbd "s-c") #'org-capture)
+(global-set-key (kbd "s-a") #'org-agenda)
+(global-set-key (kbd "s-v") #'straight-visit-package)
+(global-set-key (kbd "s-q") #'save-buffers-kill-emacs)
+(global-set-key (kbd "s-k") #'kill-current-buffer)
 
 (provide 'init-keys)
 ;;; init-keys.el ends here

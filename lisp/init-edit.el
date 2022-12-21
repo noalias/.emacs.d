@@ -15,16 +15,15 @@
                 indent-tabs-mode nil)
   )
 
-
 ;;; Simple edit mode
-(defvar edit:overlay nil)
+(defvar-local edit:overlay nil)
 
 (defface edit:overlay-face
   '((t (:background "salmon" :foreground "black")))
   "Thing Overlay face.")
 
 (defun edit:overlay--set (beg end)
-  (if edit:overlay
+  (if (overlayp edit:overlay)
       (setq edit:overlay (move-overlay edit:overlay beg end))
     (setq edit:overlay (make-overlay beg end)))
   (overlay-put edit:overlay 'face 'edit:overlay-face))
@@ -100,7 +99,7 @@
     (`(,beg . ,end)
      (pcase (point)
        ((pred (eq beg)) (goto-char end))
-       ((pred (eq end)) (goto-char beg))))))
+       (_ (goto-char beg))))))
 
 ;; pair
 (defun edit:insert-pair (&optional arg)

@@ -23,25 +23,22 @@
                                       before-user-init-time))))
 
 ;;; Long tail
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'init-base)
-(with-eval-after-load 'init-base
-  (require 'init-easy)
-  (require 'init-input-method)
-  (require 'init-face)
-  (require 'init-text)
-  (require 'init-prog)
-  (require 'init-help)
-  (require 'init-project)
-  (require 'init-file)
-  (require 'init-buffer)
-  (require 'init-window)
-  (require 'init-dired)
-  (require 'init-dashboard)
-  (require 'init-edit)
-  ;; must load in last
-  (require 'init-keys)
-  )
+(use-package emacs
+  :load-path "lisp"
+  :config
+  (use-package init-base)
+  (use-package init-easy)
+  (use-package init-input-method)
+  (use-package init-face)
+  ;(use-package init-text)
+  (use-package init-prog)
+  (use-package init-help)
+  (use-package init-project)
+  (use-package init-file)
+  (use-package init-buffer)
+  (use-package init-window)
+  (use-package init-dired)
+  (use-package init-edit))
 
 ;;; Tequila worms
 
