@@ -1,38 +1,37 @@
 ;;; -*- lexical-binding: t -*-
 (use-package emacs
   :demand t
+  :hook (after-init-hook . savehist-mode)
   :init
   (use-package all-the-icons
     :straight t)
   (use-package no-littering
     :straight t)
-
   (defconst base:win-p (eq system-type 'windows-nt))
   (defconst base:linux-p (eq system-type 'gnu/linux))
   (defconst base:display-graphic-p (and (display-graphic-p)
                                         (featurep 'all-the-icons)))
+  (define-prefix-command 'global:commands-map)
+  :bind-keymap ("M-c" . global:commands-map)
   :bind
-  (("M-c m" . consult-bookmark)
-   ("M-c g" . magit)
-   ("M-c c" . org-capture)
-   ("M-c a" . org-agenda)
-   ("M-c v" . straight-visit-package)
-   ("M-c q" . save-buffers-kill-emacs)
-   ("M-c k" . kill-current-buffer)
-   ("M-c s" . save-some-buffers)
-   ("M-SPC" . edit:keys))
+  (("M-SPC" . edit:keys)
+   :map global:commands-map
+   ("SPC" . consult-buffer)
+   ("m" . consult-bookmark)
+   ("c" . org-capture)
+   ("a" . org-agenda)
+   ("v" . straight-visit-package)
+   ("q" . save-buffers-kill-emacs)
+   ("k" . kill-current-buffer)
+   ("s" . save-some-buffers))
   :config
-  (progn ; `custom-file'
+  (use-package custom
+    :config
     (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
     (when (file-exists-p custom-file)
       (load custom-file)))
   
   (setq server-auth-dir (expand-file-name "server" no-littering-var-directory))
-  
-  ;; (when base:win-p
-  ;;   (setq w32-pass-lwindow-to-system nil) 
-  ;;   (setq w32-lwindow-modifier 'super)
-  ;;   (w32-register-hot-key [s-]))
   
   (progn ; `Encoding'
     ;; (set-language-environment               "UTF-8")     ;; System default coding

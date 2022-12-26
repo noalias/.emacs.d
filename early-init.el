@@ -15,7 +15,6 @@
             (cons "nognu" "http://mirrors.tuna.tsinghua.edu.cn/elpa/nognu/")
             (cons "org" "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
-
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
 
@@ -31,10 +30,7 @@
     (setq straight-check-for-modifications '(check-on-save)
           straight-vc-git-default-clone-depth 1
           straight-base-dir (or (getenv "XDG_DATA_HOME")
-                                "~/.local/share/")
-          ;; 在 `use-package' 使用 `straight' 安装包
-          ;; straight-use-package-by-default t
-          )
+                                "~/.local/share/"))
 
     ;; load `straight'
     (defvar bootstrap-version)
@@ -57,12 +53,8 @@
       (load bootstrap-file nil 'nomessage))
     )
 
-(with-eval-after-load 'straight
-  (straight-use-package 'use-package)
-  ;; 禁止自动添加 `-hook'
-  (setq use-package-hook-name-suffix nil)
-  (require 'use-package)
-  )
+;; disable omit `-hook'
+(setq use-package-hook-name-suffix nil)
 
 ;;; early-init.el ends here
 ;; Local Variables:

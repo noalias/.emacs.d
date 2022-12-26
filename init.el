@@ -27,7 +27,7 @@
   :load-path "lisp"
   :config
   (use-package init-base)
-  (use-package init-easy)
+  (use-package init-completion)
   (use-package init-input-method)
   (use-package init-face)
   (use-package init-text)
@@ -38,7 +38,8 @@
   (use-package init-buffer)
   (use-package init-window)
   (use-package init-dired)
-  (use-package init-edit))
+  (use-package init-edit)
+  )
 
 ;;; Tequila worms
 

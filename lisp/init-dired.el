@@ -51,18 +51,16 @@
     (interactive "P")
     (unless (executable-find "mutool")
       (user-error "Can not find *mutool*"))
-    (let ((files (dired-get-marked-files 'no-dir arg
-                                         (lambda (file)
-                                           (string-match-p
-                                            (rx bos (or "pdf" "png") eos)
-                                            (file-name-extension file))))))
+    (let ((files (dired-get-marked-files :no-dir)))
       (if (length< files 2)
           (user-error "Less files to merge"))
-      (process-lines "mutool"
-                     "merge"
-                     (string-join files " ")
-                     "-o"
-                     "output.pdf")))
+      (message "%s"
+       (concat
+        (shell-quote-argument "mutool merge -o output.pdf ")
+        (combine-and-quote-strings
+         (mapcar
+          (lambda (s) (encode-coding-string s 'gbk))
+          files))))))
   
   (use-package dired-aux
     :config
@@ -77,7 +75,7 @@
   :config
   (setq dired-omit-files
         (rx bos (or (seq "desktop.ini")
-                    (seq "~$" (* (or alnum (category chinese-two-byte))))
+                    (seq ?~ (? ?$) (* (or alnum (category chinese-two-byte))) (? ".tmp"))
                     eos))))
 
 (use-package diredfl

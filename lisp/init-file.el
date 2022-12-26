@@ -2,7 +2,6 @@
 (use-package emacs
   :init
   (use-package init-base)
-  (use-package init-easy)
   (setq auto-save-silent t)   ; quietly save
   (setq make-backup-files nil)
   (setq auto-save-default nil)
@@ -10,7 +9,14 @@
   (setq auto-save-delete-trailing-whitespace t)
   (setq delete-auto-save-files t)
   :hook (after-init-hook . recentf-mode)
-  :bind ("M-c f" . file:keys)
+  :bind
+  (:map global:commands-map
+        ("f SPC" . find-file)
+        ("f d" . consult-dir)
+        ("f f" . consult-fd)
+        ("f e" . consult-file-externally)
+        ("f g" . consult-ripgrep)
+        ("f r" . consult-recent-file))
   :config
   (add-to-list 'recentf-exclude no-littering-var-directory)
   (add-to-list 'recentf-exclude no-littering-etc-directory)
@@ -21,9 +27,9 @@
   (use-package consult-dir
     :straight t
     :bind
-    (:map vertico-map
-          ("C-M-d" . consult-dir)
-          ("C-M-j" . consult-dir-jump-file))
+    ;(:map vertico-map
+    ;      ("C-M-d" . consult-dir)
+    ;      ("C-M-j" . consult-dir-jump-file))
     :config
     (defun file:consult-dir--work-dirs ()
       "Return a list of work dirs."
@@ -63,18 +69,7 @@
         :enabled  ,(lambda () (file-exists-p "d:/study/"))
         :items    ,#'file:consult-dir--study-dirs)
       "Fasd directory source for `consult-dir'.")
-    (add-to-list 'consult-dir-sources 'file:consult-dir--study-source t))
-  
-  (transient-define-prefix file:keys ()
-    "File 操作"
-    ["Files Commands"
-     ("SPC" "Find file" find-file)
-     ("d" "Find dir" consult-dir)
-     ("f" "Locate the files" consult-fd)
-     ("e" "Open file with external command" consult-file-externally)
-     ("g" "Find file with rg" consult-ripgrep)
-     ("r" "Find recent file" consult-recent-file)
-     ]))
+    (add-to-list 'consult-dir-sources 'file:consult-dir--study-source t)))
 
 (provide 'init-file)
 ;;; init-file.el ends here

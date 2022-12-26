@@ -4,7 +4,7 @@
   :config
   (load-theme 'doom-dracula :no-confirm)
   (setq doom-themes-enable-bold t
-	doom-themes-enable-italic t))
+	    doom-themes-enable-italic t))
 
 (use-package doom-modeline
   :straight t

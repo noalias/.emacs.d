@@ -1,66 +1,11 @@
 ;;;  -*- lexical-binding: t -*-
-(defvar window:boring-buffers-and-modes
-  '("\\*Messages\\*"
-    "Output\\*$" "\\*Pp Eval Output\\*$"
-    "\\*Compile-Log\\*"
-    "\\*Completions\\*"
-    "\\*Warnings\\*"
-    "\\*Flymake diagnostics.*\\*"
-    "\\*Async Shell Command\\*"
-    "\\*Apropos\\*"
-    "\\*Backtrace\\*"
-    "\\*prodigy\\*"
-    "\\*Calendar\\*"
-    "\\*Embark Actions\\*"
-    "\\*Finder\\*"
-    "\\*Kill Ring\\*"
-    "\\*Embark Export:.*\\*"
-    bookmark-bmenu-mode
-    lsp-bridge-ref-mode
-    comint-mode
-    compilation-mode
-    help-mode helpful-mode
-    tabulated-list-mode
-    Buffer-menu-mode
-    occur-mode
-    gnus-article-mode devdocs-mode
-    grep-mode occur-mode rg-mode deadgrep-mode ag-mode pt-mode
-    ivy-occur-mode ivy-occur-grep-mode
-    process-menu-mode list-environment-mode cargo-process-mode
-    youdao-dictionary-mode osx-dictionary-mode fanyi-mode
-
-    "^\\*eshell.*\\*.*$" eshell-mode
-    "^\\*shell.*\\*.*$"  shell-mode
-    "^\\*terminal.*\\*.*$" term-mode
-    "^\\*vterm.*\\*.*$"  vterm-mode
-
-    "\\*DAP Templates\\*$" dap-server-log-mode
-    "\\*ELP Profiling Restuls\\*" profiler-report-mode
-    "\\*Flycheck errors\\*$" " \\*Flycheck checker\\*$"
-    "\\*Paradox Report\\*$" "\\*package update results\\*$" "\\*Package-Lint\\*$"
-    "\\*[Wo]*Man.*\\*$"
-    "\\*ert\\*$" overseer-buffer-mode
-    "\\*gud-debug\\*$"
-    "\\*lsp-help\\*$" "\\*lsp session\\*$"
-    "\\*quickrun\\*$"
-    "\\*tldr\\*$"
-    "\\*vc-.*\\*$"
-    "^\\*elfeed-entry\\*$"
-    "^\\*macro expansion\\**"
-
-    "\\*Agenda Commands\\*" "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
-    "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
-    "\\*docker-containers\\*" "\\*docker-images\\*" "\\*docker-networks\\*" "\\*docker-volumes\\*"
-    "\\*prolog\\*" inferior-python-mode inf-ruby-mode swift-repl-mode
-    "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
-    rustic-cargo-outdated-mode rustic-cargo-test-moed))
-
 (use-package emacs
   :init
   (use-package init-base)
   :demand t
   :bind
-  ("M-c w" . window:keys)
+  (:map global:commands-map
+        ("w" . window:keys))
   :after (winner)
   :config
   (transient-define-prefix window:keys ()
@@ -98,7 +43,7 @@
   :hook after-init-hook
   :commands (winner-undo winner-redo)
   :config
-  (setq winner-boring-buffers '("*Completions*"
+  (setq winner-boring-buffers '(;"*Completions*"
                                   "*Compile-Log*"
                                   "*inferior-lisp*"
                                   "*Fuzzy Completions*"
@@ -110,6 +55,62 @@
                                   "*esh command on file*")))
 
 (use-package popper
+  :init
+  (defvar window:boring-buffers-and-modes
+    '("\\*Messages\\*"
+      "Output\\*$" "\\*Pp Eval Output\\*$"
+      "\\*Compile-Log\\*"
+                                        ;"\\*Completions\\*"
+      "\\*Warnings\\*"
+      "\\*Flymake diagnostics.*\\*"
+      "\\*Async Shell Command\\*"
+      "\\*Apropos\\*"
+      "\\*Backtrace\\*"
+      "\\*prodigy\\*"
+      "\\*Calendar\\*"
+      "\\*Embark Actions\\*"
+      "\\*Finder\\*"
+      "\\*Kill Ring\\*"
+      "\\*Embark Export:.*\\*"
+      bookmark-bmenu-mode
+      lsp-bridge-ref-mode
+      comint-mode
+      compilation-mode
+      help-mode helpful-mode
+      tabulated-list-mode
+      Buffer-menu-mode
+      occur-mode
+      gnus-article-mode devdocs-mode
+      grep-mode occur-mode rg-mode deadgrep-mode ag-mode pt-mode
+      ivy-occur-mode ivy-occur-grep-mode
+      process-menu-mode list-environment-mode cargo-process-mode
+      youdao-dictionary-mode osx-dictionary-mode fanyi-mode
+
+      "^\\*eshell.*\\*.*$" eshell-mode
+      "^\\*shell.*\\*.*$"  shell-mode
+      "^\\*terminal.*\\*.*$" term-mode
+      "^\\*vterm.*\\*.*$"  vterm-mode
+
+      "\\*DAP Templates\\*$" dap-server-log-mode
+      "\\*ELP Profiling Restuls\\*" profiler-report-mode
+      "\\*Flycheck errors\\*$" " \\*Flycheck checker\\*$"
+      "\\*Paradox Report\\*$" "\\*package update results\\*$" "\\*Package-Lint\\*$"
+      "\\*[Wo]*Man.*\\*$"
+      "\\*ert\\*$" overseer-buffer-mode
+      "\\*gud-debug\\*$"
+      "\\*lsp-help\\*$" "\\*lsp session\\*$"
+      "\\*quickrun\\*$"
+      "\\*tldr\\*$"
+      "\\*vc-.*\\*$"
+      "^\\*elfeed-entry\\*$"
+      "^\\*macro expansion\\**"
+
+      "\\*Agenda Commands\\*" "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
+      "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
+      "\\*docker-containers\\*" "\\*docker-images\\*" "\\*docker-networks\\*" "\\*docker-volumes\\*"
+      "\\*prolog\\*" inferior-python-mode inf-ruby-mode swift-repl-mode
+      "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
+      rustic-cargo-outdated-mode rustic-cargo-test-moed))
   :straight t
   :hook after-init-hook
   :bind

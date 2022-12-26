@@ -1,7 +1,14 @@
 ;;; -*- lexical-binding: t -*-
 (use-package emacs
   :demand t
-  :bind ("M-c b" . buffer:keys)
+  :bind
+  (:map global:commands-map
+        ("b o" . consult-buffer-other-window)
+        ("b i" . ibuffer)
+        ("b s" . save-buffer)
+        ("b k" . kill-current-buffer)
+        ("b p" . switch-to-prev-buffer)
+        ("b n" . switch-to-next-buffer))
   :init
   (defvar buffer:skip-regexp
     (rx bos
@@ -48,17 +55,7 @@
         eos))
   :config
   (setq switch-to-prev-buffer-skip-regexp buffer:skip-regexp)
-  (transient-define-prefix buffer:keys ()
-    "Buffer 操作"
-    ["Buffer Commands"
-     ("SPC" "Switch to buffer" consult-buffer)
-     ("o" "Switch to other window" consult-buffer-other-window)
-     ("i" "Ibuffer" ibuffer)
-     ("s" "Save current buffer" save-buffer)
-     ("k" "Kill current buffer" kill-current-buffer)
-     ("p" "Switch to prefix buffer" switch-to-prev-buffer)
-     ("n" "Switch to next buffer" switch-to-next-buffer)
-     ])
+    
   (use-package consult
     :defer t
     :config

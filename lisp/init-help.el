@@ -1,13 +1,16 @@
 ;;; -*- lexical-binding: t -*-
 (use-package helpful
   :straight t
-  :init
-  (use-package init-base)
-  (use-package init-easy)
   :bind
-  ("M-c h" . help:keys)
-  :config
-  (use-package apropos
+  (([remap describe-variable] . helpful-variable)
+   ([remap describe-symbol] . helpful-symbol)
+   ([remap describe-function] . helpful-callable)
+   ([remap describe-command] . helpful-command)
+   ([remap Info-goto-emacs-command-node] . helpful-function)
+   ([remap describe-key] . helpful-key)
+   ("C-h SPC" . helpful-at-point)))
+
+(use-package apropos
     :defer t
     :config
     (dolist (fun-bt '(apropos-function apropos-macro apropos-command))
@@ -20,20 +23,6 @@
        var-bt 'action
        (lambda (button)
          (helpful-variable (button-get button 'apropos-symbol))))))
-  (transient-define-prefix help:keys ()
-    "Helps 操作"
-    ["Help commands"
-     ("SPC" "Help for point" helpful-at-point)
-     ("f" "Help for functions" helpful-callable)
-     ("x" "Help for command" helpful-command)
-     ("k" "Help for key" helpful-key)
-     ("p" "Help for packages" describe-package)
-     ("v" "Help for values" helpful-variable)
-     ("o" "Help for symbol" helpful-symbol)
-     ("i" "Help for info" info-other-window)
-     ("s" "Help for shortdoc" shortdoc)
-     ("a" "Help for aprops" consult-apropos)
-     ]))
 
 (provide 'init-help)
 ;;; init-help.el ends here

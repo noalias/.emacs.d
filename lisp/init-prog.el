@@ -65,7 +65,6 @@
     :no-require t
     :config
     (setq orderless-component-separator "[ &]")
-    
     (defun just-one-face (fn &rest args)
       (let ((orgerless-match-faces [completions-common-part]))
         (apply fn args)))
