@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 (use-package emacs
-  :demand t
+  :demand
   :bind
   (:map global:commands-map
         ("b o" . consult-buffer-other-window)

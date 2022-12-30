@@ -3,10 +3,8 @@
   :demand t
   :hook (after-init-hook . savehist-mode)
   :init
-  (use-package all-the-icons
-    :straight t)
-  (use-package no-littering
-    :straight t)
+  (use-package all-the-icons :straight t)
+  (use-package no-littering  :straight t)
   (defconst base:win-p (eq system-type 'windows-nt))
   (defconst base:linux-p (eq system-type 'gnu/linux))
   (defconst base:display-graphic-p (and (display-graphic-p)
@@ -16,8 +14,8 @@
   :bind
   (("M-SPC" . edit:keys)
    :map global:commands-map
-   ("SPC" . consult-buffer)
-   ("m" . consult-bookmark)
+   ("SPC" . switch-to-buffer)
+   ("m" . bookmark-jump)
    ("c" . org-capture)
    ("a" . org-agenda)
    ("v" . straight-visit-package)
@@ -25,14 +23,7 @@
    ("k" . kill-current-buffer)
    ("s" . save-some-buffers))
   :config
-  (use-package custom
-    :config
-    (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
-    (when (file-exists-p custom-file)
-      (load custom-file)))
-  
   (setq server-auth-dir (expand-file-name "server" no-littering-var-directory))
-  
   (progn ; `Encoding'
     ;; (set-language-environment               "UTF-8")     ;; System default coding
     ;; (prefer-coding-system                   'utf-8)      ;; prefer
@@ -69,11 +60,17 @@
     (global-unset-key (kbd "C-x C-b"))
     (global-unset-key (kbd "C-x C-p"))
     (global-unset-key (kbd "C-h C-a")))
-  
+
   (progn ; `misc'
     (fset 'yes-or-no-p 'y-or-n-p)
     (setq visible-bell t
           ring-bell-function 'ignore)))
+
+(use-package custom
+  :config
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+  (when (file-exists-p custom-file)
+    (load custom-file)))
 
 (provide 'init-base)
 ;;; init-base.el ends here

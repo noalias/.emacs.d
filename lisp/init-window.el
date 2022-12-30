@@ -1,12 +1,9 @@
 ;;;  -*- lexical-binding: t -*-
 (use-package emacs
-  :init
-  (use-package init-base)
   :demand t
   :bind
   (:map global:commands-map
         ("w" . window:keys))
-  :after (winner)
   :config
   (transient-define-prefix window:keys ()
     "Window 操作"
@@ -21,8 +18,6 @@
      ["Actions"
       ("o" "Delete other windows" delete-other-windows)
       ("q" "Delete window" delete-window)
-      ("," "Undo changes in window configuration" winner-undo :transient t)
-      ("." "Restore a recent window configuration" winner-redo :transient t)
       ("z" "Restore latest popper" popper-toggle-latest)
       ]
      ["Resize"
@@ -38,29 +33,43 @@
       ]
      ]))
 
-(use-package winner
-  :straight t
-  :hook after-init-hook
-  :commands (winner-undo winner-redo)
+(use-package tab-bar
+  :hook (after-init-hook . tab-bar-history-mode)
+  :bind
+  (("M-<right>" . tab-bar-switch-to-next-tab)
+   ("M-<left>" . tab-bar-switch-to-prev-tab))
+  :custom
+  (tab-bar-switch-to 'left)
   :config
-  (setq winner-boring-buffers '(;"*Completions*"
-                                  "*Compile-Log*"
-                                  "*inferior-lisp*"
-                                  "*Fuzzy Completions*"
-                                  "*Apropos*"
-                                  "*Help*"
-                                  "*cvs*"
-                                  "*Buffer List*"
-                                  "*Ibuffer*"
-                                  "*esh command on file*")))
+  (setq tab-bar-history-buttons-show nil
+        tab-bar-new-button nil
+        tab-bar-border nil
+        tab-bar-close-button nil
+        tab-bar-back-button nil
+        tab-bar-tab-name-truncated-max 10)
+  
+  (defun window:tab-bar-switch-with-current-buffer (name)
+    "Switch to the tab with current buffer."
+    (let ((tab-index (tab-bar--tab-index-by-name name)))
+      (if tab-index
+          (tab-bar-select-tab (1+ tab-index))
+        (tab-bar-new-tab)
+        (tab-bar-rename-tab name))))
+  (advice-add 'bookmark-jump :before 'window:tab-bar-switch-with-current-buffer)
+  
+  :custom-face
+  (tab-bar ((t (:inherit hl-line))))
+  (tab-bar-tab ((t (:inverse-video t :bold t))))
+  (tab-bar-tab-inactive ((t (:inherit shadow)))))
 
 (use-package popper
+  :straight t
   :init
   (defvar window:boring-buffers-and-modes
     '("\\*Messages\\*"
       "Output\\*$" "\\*Pp Eval Output\\*$"
       "\\*Compile-Log\\*"
-                                        ;"\\*Completions\\*"
+      ;"\\*Completions\\*"
       "\\*Warnings\\*"
       "\\*Flymake diagnostics.*\\*"
       "\\*Async Shell Command\\*"
@@ -111,7 +120,6 @@
       "\\*prolog\\*" inferior-python-mode inf-ruby-mode swift-repl-mode
       "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
       rustic-cargo-outdated-mode rustic-cargo-test-moed))
-  :straight t
   :hook after-init-hook
   :bind
   (("C-<tab>" . popper-cycle)

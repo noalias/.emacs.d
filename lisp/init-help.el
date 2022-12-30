@@ -1,14 +1,14 @@
 ;;; -*- lexical-binding: t -*-
-(use-package helpful
-  :straight t
-  :bind
-  (([remap describe-variable] . helpful-variable)
-   ([remap describe-symbol] . helpful-symbol)
-   ([remap describe-function] . helpful-callable)
-   ([remap describe-command] . helpful-command)
-   ([remap Info-goto-emacs-command-node] . helpful-function)
-   ([remap describe-key] . helpful-key)
-   ("C-h SPC" . helpful-at-point)))
+;; (use-package helpful
+;;   :vc
+;;   :bind
+;;   (([remap describe-variable] . helpful-variable)
+;;    ([remap describe-symbol] . helpful-symbol)
+;;    ([remap describe-function] . helpful-callable)
+;;    ([remap describe-command] . helpful-command)
+;;    ([remap Info-goto-emacs-command-node] . helpful-function)
+;;    ([remap describe-key] . helpful-key)
+;;    ("C-h SPC" . helpful-at-point)))
 
 (use-package apropos
     :defer t
@@ -22,7 +22,7 @@
       (button-type-put
        var-bt 'action
        (lambda (button)
-         (helpful-variable (button-get button 'apropos-symbol))))))
+         (describe-variable (button-get button 'apropos-symbol))))))
 
 (provide 'init-help)
 ;;; init-help.el ends here

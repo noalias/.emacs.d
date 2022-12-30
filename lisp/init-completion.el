@@ -1,16 +1,17 @@
 ;;;  -*- lexical-binding: t -*-
 (use-package minibuffer
-  :init
-  (keymap-unset minibuffer-local-completion-map "SPC")
   :bind
-  (:map completion-list-mode-map
+  (:map minibuffer-local-completion-map
+        ("M-j" . minibuffer-next-completion)
+        ("M-k" . minibuffer-previous-completion)
+        ("C-RET" . completion:force-exit)
+        ("SPC")
+   :map completion-list-mode-map
 	    ("z" . switch-to-minibuffer))
   :custom
-  (isearch-allow-scroll t)
-  (enable-recursive-minibuffers t)
-  (minibuffer-depth-indicate-mode t)
   (minibuffer-electric-default-mode t)
   ;; Don't insert completion at point into minibuffer
+  ;; 使用 `M-<RET>' 将补全插入到 `minibuffer'
   (minibuffer-completion-auto-choose nil)
   ;; One frame one minibuffer.
   (minibuffer-follows-selected-frame nil)
@@ -31,7 +32,7 @@
   (completion-ignore-case t)
   ;; vertical display
   (completions-format 'one-column)
-  (completions-max-height 7)
+  (completions-max-height 13)
   (completions-sort #'completion:list-sort)
   :config
   ;; Hide the mode line of the Completions buffers
@@ -46,11 +47,19 @@
       (thread-first all
                     (sort (lambda (c1 c2) (< (length c1) (length c2))))
                     (sort (lambda (c1 c2) (> (length (member c1 hist))
-                                        (length (member c2 hist)))))))))
-
-(use-package all-the-icons-completion
-  :straight t
-  :hook after-init-hook)
+                                        (length (member c2 hist))))))))
+  ;; Copy from `icomplete'
+  (defun completion:force-exit (force)
+    "Attempt to exit minibuffer immediately with current input.
+Unless FORCE is non-nil (interactively with a prefix argument),
+honor a non-nil REQUIRE-MATCH argument to `completing-read' by
+trying to complete as much as possible and disallowing the exit
+if that doesn't produce a completion match."
+    (interactive "P")
+    (if (and (not force) minibuffer--require-match)
+        (minibuffer-complete-and-exit)
+      (exit-minibuffer)))
+  )
 
 (use-package aggressive-completion
   :straight t
@@ -61,16 +70,57 @@
   :config
   (add-hook 'aggressive-completion-mode-hook #'completion:disable-auto-select)
   (defun completion:disable-auto-select ()
-    ;; 避免自动切换至 `Completions-buffer' 中的补全项
-    (setq completion-auto-select nil
-    ;; 禁止 `minibuffer' 中的补全     
-          completion-cycle-threshold nil))
+    (setq
+     ;; 避免自动切换至 `Completions-buffer' 中的补全项
+     completion-auto-select nil
+     ;; 禁止 `minibuffer' 中的补全     
+     completion-cycle-threshold nil
+     ;; 禁止自动插入 `Completions-buffer' 中的补全
+     minibuffer-completion-auto-choose nil))
   
   (defun completion:auto-select ()
     "`TAB' 键可切换至 `Completions-buffer' 中的补全项"
     (interactive)
     (let ((completion-auto-select t))
       (minibuffer-complete))))
+
+(use-package company
+  :straight t
+  :hook
+  (after-init-hook . global-company-mode)
+  :custom
+  (company-backends '((company-capf :with company-yasnippet)
+                      (company-keywords company-files)))
+  (company-tooltip-align-annotations t)
+  (company-tooltip-limit 12)
+  (company-tooltip-offset-display 'line)
+  :config
+  (setq company-global-modes '(not message-mode
+                                   help-mode
+                                   eshell-mode
+                                   shell-mode))
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 3
+        company-icon-margin 3
+        company-require-match nil
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil))
+
+(use-package consult-company
+  :straight t
+  :after company
+  :bind
+  (:map company-active-map
+        ("C-s" . consult-company))
+  :config
+  (consult-customize
+   consult-company
+   :initial company-prefix)
+  (defun completion:consult-company-frontend (command)
+    (pcase command
+      (`post-command (consult-company))))
+  ;(setq company-frontends '(completion:consult-company-frontend))
+  )
 
 (use-package orderless
   :straight t
@@ -101,8 +151,8 @@
   )
 
 (use-package embark-consult
-  :after (consult embark)
   :straight t
+  :after (consult embark)
   :config
   (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode))
 
@@ -159,11 +209,6 @@
     (let* ((prompt-dir (consult--directory-prompt "Fd" dir))
            (default-directory (cdr prompt-dir)))
       (find-file (consult--find (car prompt-dir) #'consult--fd-builder initial)))))
-
-(use-package consult-company
-  :straight t
-  :bind
-  ("M-/" . consult-company))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here

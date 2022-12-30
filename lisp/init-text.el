@@ -4,8 +4,8 @@
   (setq-default major-mode 'text-mode))
 
 (use-package markdown-mode
-  :straight t
-  :mode ("README\\.md\\'" . gfm-mode))
+   :straight t
+   :mode ("README\\.md\\'" . gfm-mode))
 
 (use-package yaml-mode
   :straight t

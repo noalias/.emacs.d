@@ -1,7 +1,5 @@
 ;;;  -*- lexical-binding: t -*-
 (use-package emacs
-  :init
-  (use-package init-base)
   :config
   (setq delete-by-moving-to-trash t)       ; Deleting files go to OS's trash folder
   (when base:win-p
@@ -84,10 +82,10 @@
   :config
   (diredfl-global-mode))
 
-(use-package all-the-icons-dired
-  :straight t
-  :if base:display-graphic-p
-  :hook dired-mode-hook)
+;; (use-package all-the-icons-dired
+;;   :straight t
+;;   :if base:display-graphic-p
+;;   :hook dired-mode-hook)
 
 (provide 'init-dired)
 ;;; init-dired.el ends here

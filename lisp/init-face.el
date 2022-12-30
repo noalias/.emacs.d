@@ -1,20 +1,6 @@
 ;;;  -*- lexical-binding: t -*-
-(use-package doom-themes
-  :straight t
-  :config
-  (load-theme 'doom-dracula :no-confirm)
-  (setq doom-themes-enable-bold t
-	    doom-themes-enable-italic t))
-
-(use-package doom-modeline
-  :straight t
-  :hook after-init-hook
-  :config
-  (setq doom-modeline-major-mode-icon t))
-
 (use-package emacs
   :init
-  (use-package init-base)
   ;; config font
   (defvar face:font-size 20)
 
@@ -45,6 +31,19 @@
        charset
        (font-spec :family face:fontset-font
                   :size face:font-size)))))
+
+(use-package doom-themes
+  :straight t
+  :config
+  (load-theme 'doom-one :no-confirm)
+  (setq doom-themes-enable-bold t
+	    doom-themes-enable-italic t))
+
+(use-package doom-modeline
+  :straight t
+  :hook after-init-hook
+  :config
+  (setq doom-modeline-major-mode-icon t))
 
 (provide 'init-face)
 ;;; init-face.el ends here

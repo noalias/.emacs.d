@@ -12,8 +12,7 @@
       package-archives
       (list (cons "gnu" "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
             (cons "melpa" "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-            (cons "nognu" "http://mirrors.tuna.tsinghua.edu.cn/elpa/nognu/")
-            (cons "org" "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+            (cons "nognu" "http://mirrors.tuna.tsinghua.edu.cn/elpa/nognu/")))
 
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
@@ -24,6 +23,9 @@
 (push '(vertical-scroll-bars) default-frame-alist)
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
+
+;; `use-package' disable omit `-hook'
+(setq use-package-hook-name-suffix nil)
 
 (progn ; `straight'
     ;; config `straight'
@@ -46,15 +48,11 @@
         (let ((default-directory bootstrap-dir))
           (process-lines "git"
 		                 "clone"
-		                 "git@github.com:radian-software/straight.el.git"
+	                     "https://github.com/radian-software/straight.el.git"
 		                 "--depth"
-		                 "1"))
-        )
+		                 "1")))
       (load bootstrap-file nil 'nomessage))
     )
-
-;; disable omit `-hook'
-(setq use-package-hook-name-suffix nil)
 
 ;;; early-init.el ends here
 ;; Local Variables:
